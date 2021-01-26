@@ -33,26 +33,11 @@ class site_text:
          
          self.site_html = requests.get(self.site)
          self.site_soup = BeautifulSoup(self.site_html.content, 
-                                        'html.parser').prettify()
+                                        'html.parser')
+         self.text = ""
     
+        
     def get_text(self):
-        """
-        
-
-        Parameters
-        ----------
-        site_soup : TYPE
-            DESCRIPTION.
-
-        Returns
-        -------
-        A list of words representing the text of the website.
-
-        """
-        
-        
-    
-    def process(self, text):
         """
         Removes punctuation and extra spaces from the text and transforms all
         words to lowercase.
@@ -65,14 +50,16 @@ class site_text:
 
         Returns
         -------
-        A string of all words in the list passed to the function, 
-        each separated by one space.
+        Updates self.text with a string of all text held within the <p> tags
+        of the URL passed to the class instance.
 
         """
-        texts_together = ' '.join(text)
+        all_ps = self.site_soup.find_all('p')
+        all_ps_text = [x.get_text() for x in all_ps]
+        texts_together = ' '.join(all_ps_text)
         text_no_punct_lower = re.sub(r'[^ \w]', '', texts_together).lower()
         text_one_space = re.sub(r' +', ' ', text_no_punct_lower)
-        return text_one_space
+        self.text = text_one_space
         
         
     
