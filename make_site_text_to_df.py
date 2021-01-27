@@ -59,11 +59,11 @@ class site_text:
         texts_together = ' '.join(all_ps_text)
         text_no_punct_lower = re.sub(r'[^ \w]', '', texts_together).lower()
         text_one_space = re.sub(r' +', ' ', text_no_punct_lower)
-        self.text = text_one_space
+        self.text = text_one_space.strip()
         
         
     
-    def remove_text(self, text, beginning_cut, end_cut):
+    def remove_text(self, beginning_cut, end_cut):
         """
         Uses regular expressions to match beginning_text and end_text. Deletes
         all text, starting with the first character of beginning_text, ending 
@@ -89,21 +89,31 @@ class site_text:
         """
         # Check if beginning_cut and end_cut appear in text
         try: 
-            front_split = text.split(beginning_cut)
+            front_split = self.text.split(beginning_cut)
         except: 
-            InputError(f"\"{front_split}\" doesn't seem to be here. Please check your beginning cut and type it exactly as it appears in the text.")
+            InputError(f"\"{beginning_cut}\" doesn't seem to be here. Please check your beginning cut and type it exactly as it appears in the text.")
         try:
             back_split = front_split[1].split(end_cut)
         except:
-            InputError(f"\"{back_split}\" doesn't seem to appear after your beginning cut. Please check your end cut and type it exactly as it appears in the text.")
+            InputError(f"\"{end_cut}\" doesn't seem to appear after your beginning cut. Please check your end cut and type it exactly as it appears in the text.")
         # Check that beginning_cut and end_cut are unique          
         if len(front_split) > 2:
-            raise InputError(f"\"{front_split}\" occurs more than once in the text. Try typing more words for your beginning cut.")
+            raise InputError(f"\n\"{beginning_cut}\" occurs more than once in the text. \n Try typing more words for your beginning cut.")
         if len(back_split) > 2:
-            raise InputError(f"\"{back_split}\" occurs more than once in the text. Try typing more words for your end cut.")
+            raise InputError(f"\n\"{end_cut}\" occurs more than once after your beginning cut. \n Try typing more words for your end cut.")
         new_text = front_split[0] + back_split[1]
-        return re.sub(r' +', ' ', new_text)
-     
+        cut_okay = input(f"\"{new_text.strip()}\"  <<< Does this look right? Y/N: ")
+        if cut_okay == 'Y' or cut_okay == 'y':
+            print("Okay, text removed!")
+            self.text = re.sub(r' +', ' ', new_text).strip()
+        elif cut_okay == 'N' or cut_okay == 'n':
+            print("No text removed. Please try again.")
+        else:
+            print("Sorry, didn't understand that. Please try again.")
+'''
+Next step: make the try/except into if-else, or else figure out how to break after
+the exception
+''' 
             
             
         
