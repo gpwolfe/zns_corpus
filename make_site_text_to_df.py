@@ -88,19 +88,21 @@ class site_text:
 
         """
         # Check if beginning_cut and end_cut appear in text
-        try: 
+        if beginning_cut in self.text:
             front_split = self.text.split(beginning_cut)
-        except: 
-            InputError(f"\"{beginning_cut}\" doesn't seem to be here. Please check your beginning cut and type it exactly as it appears in the text.")
-        try:
+            if len(front_split) > 2:
+                raise InputError(f"\n\"{beginning_cut}\" occurs more than once in the text. \n Try typing more words for your beginning cut.")
+        
+        else:
+            raise InputError(f"\"{beginning_cut}\" is not in the text. Please check your beginning cut and type it exactly as it appears in the text.")
+        
+        if end_cut in front_split[1]:
             back_split = front_split[1].split(end_cut)
-        except:
-            InputError(f"\"{end_cut}\" doesn't seem to appear after your beginning cut. Please check your end cut and type it exactly as it appears in the text.")
-        # Check that beginning_cut and end_cut are unique          
-        if len(front_split) > 2:
-            raise InputError(f"\n\"{beginning_cut}\" occurs more than once in the text. \n Try typing more words for your beginning cut.")
-        if len(back_split) > 2:
-            raise InputError(f"\n\"{end_cut}\" occurs more than once after your beginning cut. \n Try typing more words for your end cut.")
+            if len(back_split) > 2:
+                raise InputError(f"\n\"{end_cut}\" occurs more than once after your beginning cut. \n Try typing more words for your end cut.")
+        else:
+            raise InputError(f"\"{end_cut}\" doesn't appear after your beginning cut. Please check your end cut and type it exactly as it appears in the text.")
+        
         new_text = front_split[0] + back_split[1]
         cut_okay = input(f"\"{new_text.strip()}\"  <<< Does this look right? Y/N: ")
         if cut_okay == 'Y' or cut_okay == 'y':
@@ -110,10 +112,11 @@ class site_text:
             print("No text removed. Please try again.")
         else:
             print("Sorry, didn't understand that. Please try again.")
-'''
-Next step: make the try/except into if-else, or else figure out how to break after
-the exception
-''' 
+            
+            
+            
+            
+
             
             
         
