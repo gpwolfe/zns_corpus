@@ -8,8 +8,7 @@ Created on Sun Jan 31 17:40:58 2021
 
 import spacy
 
-# using this data for now
-text = zns.text
+
 
 nlp = spacy.load('/Users/piper/opt/anaconda3/envs/py3/lib/python3.8/site-packages/en_core_web_md/en_core_web_md-2.3.1')
 
@@ -89,11 +88,4 @@ def bag_of_words(lemmas, tags):
     return grouped_bow
 
 
-
-corpus = visible_corpus(text)
-
-the_bag = bag_of_words(corpus.lemma, corpus.tag)
-
-no_stops = remove_stops(corpus)
-the_bag_no_stops = bag_of_words(no_stops['lemma'], no_stops['tag'])
 
