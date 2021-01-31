@@ -104,7 +104,7 @@ class site_text:
             raise InputError(f"\"{end_cut}\" doesn't appear after your beginning cut. Please check your end cut and type it exactly as it appears in the text.")
         
         new_text = front_split[0] + back_split[1]
-        cut_okay = input(f"\"{new_text.strip()}\"  <<< Does this look right? Y/N: ")
+        cut_okay = input(f"\"{new_text.strip()}\"\n^^^ Does this look right? Y/N: ")
         if cut_okay == 'Y' or cut_okay == 'y':
             print("Okay, text removed!")
             self.text = re.sub(r' +', ' ', new_text).strip()
