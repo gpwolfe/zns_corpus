@@ -17,13 +17,24 @@ zns.remove_text('akismet', 'processed') ## enter 'y' or 'n' to proceed
 
 print(zns.text)
 
-from corpus_dataframes.py import *
+from corpus_dataframes import *
 
-corpus = visible_corpus(zns.text)
+full_text = visible_corpus(zns.text)
 
-bag = bag_of_words(corpus.lemma, corpus.tag)
+bow = bag_of_words(full_text.lemma, full_text.tag)
 
-no_stops = remove_stops(corpus)
+no_stops = remove_stops(full_text)
 
-bag_no_stops = bag_of_words(no_stops['lemma'], no_stops['tag'])
+bow_no_stops = bag_of_words(no_stops['lemma'], no_stops['tag'])
+
+
+# ways of handling the various parts of the corpus?
+# making a dict of DataFrames?
+
+corpus_dict = {'full_text': full_text, 'word_count': bow, 
+                   'text_stops_removed': no_stops,
+                   'word_count_stops_removed': bow_no_stops}
+
+
+
 
