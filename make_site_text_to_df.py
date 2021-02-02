@@ -37,6 +37,23 @@ class site_text:
          self.text = ""
     
         
+    def get_text_raw(self):
+        """
+        
+
+        Returns
+        -------
+        None.
+
+        """
+        
+        all_ps = self.site_soup.find_all('p')
+        all_ps_text = [x.get_text() for x in all_ps]
+        texts_together = ' '.join(all_ps_text)
+        return texts_together
+        
+    
+    
     def get_text(self):
         """
         Removes punctuation and extra spaces from the text and transforms all
