@@ -56,11 +56,12 @@ class SiteText:
             privacy_notice = re.compile("akismet\w*")
             rem_element = self.site_soup.find_all(attrs={"class":privacy_notice})
             removed = []
-            for i in rem_element:
-                removed = i.extract()
+            
+            if len(rem_element) > 0:     
+                for i in rem_element:
+                    removed = i.extract()
         
         all_ps = self.site_soup.find_all('p')
-        all_ps = all_ps.extract()
         all_ps = [x.get_text() for x in all_ps]
         texts_together = ' '.join(all_ps)
         self.raw_text = texts_together
@@ -93,8 +94,10 @@ class SiteText:
             privacy_notice = re.compile("akismet\w*")
             rem_element = self.site_soup.find_all(attrs={"class":privacy_notice})
             removed = []
-            for i in rem_element:
-                removed = i.extract()        
+            if len(rem_element) > 0:     
+                for i in rem_element:
+                    removed = i.extract()   
+                
         all_ps = self.site_soup.find_all('p')
         all_ps_text = [x.get_text() for x in all_ps]
         texts_together = ' '.join(all_ps_text)
