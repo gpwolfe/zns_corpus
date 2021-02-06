@@ -9,11 +9,16 @@ Created on Sun Jan 31 17:40:58 2021
 import spacy
 import pandas as pd
 
-nlp = spacy.load('/Users/piper/opt/anaconda3/envs/py3/lib/python3.8/site-packages/en_core_web_md/en_core_web_md-2.3.1')
+nlp = spacy.load('/Users/piper/opt/anaconda3/envs/py3/lib/python3.8/\
+                 site-packages/en_core_web_md/en_core_web_md-2.3.1')
+
 
 def visible_corpus(text):
     """
-    Creates a readable corpus in pandas DataFrame format using the
+
+    Create a readable corpus from passed string.
+
+    Generate a corpus in pandas DataFrame format using the
     readable string representations of a SpaCy Doc object.
 
     Parameters
@@ -23,8 +28,8 @@ def visible_corpus(text):
 
     Returns
     -------
-    Pandas DataFrame with the following features: token, lemma, 
-    simple POS ("tag"), detailed POS, and is_stop, indicating whether the 
+    Pandas DataFrame with the following features: token, lemma,
+    simple POS ("tag"), detailed POS, and is_stop, indicating whether the
     token is a stop-word.
 
     """
@@ -34,13 +39,14 @@ def visible_corpus(text):
     pos = [token.pos_ for token in doc]
     tags = [token.tag_ for token in doc]
     is_stop = [token.is_stop for token in doc]
-    data = pd.DataFrame({'token': literals,'lemma':lemmas,'pos':pos,
-                         'tag':tags, 'is_stop':is_stop})
+    data = pd.DataFrame({'token': literals, 'lemma': lemmas, 'pos': pos,
+                         'tag': tags, 'is_stop': is_stop})
     return data
+
 
 def remove_stops(dataframe):
     """
-    Removes stopwords from the mini-corpus returned by visible_corpus
+    Remove stopwords from the mini-corpus returned by visible_corpus.
 
     Parameters
     ----------
@@ -53,11 +59,13 @@ def remove_stops(dataframe):
     Stopwords and the is_stop column are removed.
 
     """
-    no_stops = dataframe[['token','lemma','pos','tag']][dataframe['is_stop'] == False]
+    no_stops = dataframe[['token', 'lemma', 'pos', 'tag']][dataframe['is_stop'] == False]
     return no_stops
-    
+
+
 def bag_of_words(lemmas, tags):
     """
+
     Create a bag-of-words with unique lemma-POS combinations and their counts.
 
     Parameters
@@ -75,6 +83,3 @@ def bag_of_words(lemmas, tags):
     bow = pd.DataFrame({'lemma': lemmas, 'tag': tags})
     grouped_bow = bow.value_counts(sort=False)
     return grouped_bow
-
-
-
