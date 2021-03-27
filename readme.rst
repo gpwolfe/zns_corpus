@@ -1,6 +1,6 @@
 This project is intended as a practice exercise in web scraping and natural
 language processing, with the end goal of creating a useful corpus from
-the content of he website of ZNS Bahamas. 
+the content of the website of ZNS Bahamas. 
 
 make_site_text_to_df.py is being used to create a friendly, consistent web scraping 
 object, usable by those with minimal Python experience. The site_text object 

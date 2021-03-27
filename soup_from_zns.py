@@ -10,15 +10,13 @@ from bs4 import BeautifulSoup
 import re
 import requests
 
+
 class InputError(Exception):
     pass
 
+
 class SiteText:
-    """
-
-    Pass site URL as a string.
-
-    """
+    """Pass site URL as a string."""
 
     def __init__(self, site):
         self.site = site
@@ -29,11 +27,13 @@ class SiteText:
 
     def get_raw_text(self, remove_privacy_notice=True):
         """
-        Gather text from <p> tags in site_html.
+        Gather text from <p> tags in site_html and save to self.raw_text.
 
         Parameters
         ----------
-
+        remove_privacy_notice : boolean, default True
+            Detmermine whether to remove the common text on ZNS news pages.
+            Set to False to leave privacy notice in raw text.
 
         Returns
         -------
@@ -43,7 +43,8 @@ class SiteText:
         # Removing the privacy notice corresp. to last <p> element
         if remove_privacy_notice:
             privacy_notice = re.compile("akismet\w*")
-            rem_element = self.site_soup.find_all(attrs={"class":privacy_notice})
+            rem_element = self.site_soup.find_all(
+                attrs={"class": privacy_notice})
             removed = []
             if len(rem_element) > 0:
                 for i in rem_element:
@@ -75,7 +76,8 @@ class SiteText:
         """
         if remove_privacy_notice:
             privacy_notice = re.compile("akismet\w*")
-            rem_element = self.site_soup.find_all(attrs={"class": privacy_notice})
+            rem_element = self.site_soup.find_all(
+                attrs={"class": privacy_notice})
             removed = []
             if len(rem_element) > 0:
                 for i in rem_element:
@@ -117,26 +119,26 @@ class SiteText:
         if beginning_cut in self.text:
             front_split = self.text.split(beginning_cut)
             if len(front_split) > 2:
-                raise InputError(f"\n\"{beginning_cut}\" occurs more than once\
-                                 in the text. \n Try typing more words for\
-                                     your beginning cut.")
+                raise InputError(f"\n\"{beginning_cut}\" occurs more than once"
+                                 "in the text. \n Try typing more words for"
+                                 "your beginning cut.")
         else:
-            raise InputError(f"\"{beginning_cut}\" is not in the text.\
-                             Please check your beginning cut and type it\
-                                 exactly as it appears in the text.")
+            raise InputError(f"\"{beginning_cut}\" is not in the text."
+                             "Please check your beginning cut and type it"
+                             "exactly as it appears in the text.")
         if end_cut in front_split[1]:
             back_split = front_split[1].split(end_cut)
             if len(back_split) > 2:
-                raise InputError(f"\n\"{end_cut}\" occurs more than once\
-                                 after your beginning cut.\nTry typing more\
-                                     words for your end cut.")
+                raise InputError(f"\n\"{end_cut}\" occurs more than once"
+                                 "after your beginning cut.\nTry typing more"
+                                 "words for your end cut.")
         else:
-            raise InputError(f"\"{end_cut}\" doesn't appear after your\
-                             beginning cut. Please check your end cut and\
-                                 type it exactly as it appears in the text.")
+            raise InputError(f"\"{end_cut}\" doesn't appear after your"
+                             "beginning cut. Please check your end cut and"
+                             "type it exactly as it appears in the text.")
         new_text = front_split[0] + back_split[1]
-        cut_okay = input(f"\"{new_text.strip()}\"\n^^^ Does this look\
-                         right? Y/N: ")
+        cut_okay = input(f"\"{new_text.strip()}\"\n^^^ Does this look"
+                         "right? Y/N: ")
         if cut_okay == 'Y' or cut_okay == 'y':
             print("Okay, text removed!")
             self.text = re.sub(r' +', ' ', new_text).strip()
