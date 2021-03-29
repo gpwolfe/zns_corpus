@@ -9,8 +9,7 @@ Created on Sun Jan 31 17:40:58 2021
 import spacy
 import pandas as pd
 
-nlp = spacy.load('/Users/piper/opt/anaconda3/envs/py3/lib/python3.8/\
-                 site-packages/en_core_web_md/en_core_web_md-2.3.1')
+nlp = spacy.load('/Users/piper/opt/anaconda3/envs/pyling/lib/python3.8/site-packages/en_core_web_md/en_core_web_md-2.3.1')
 
 
 def visible_corpus(text):
