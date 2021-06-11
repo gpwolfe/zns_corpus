@@ -1,9 +1,6 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Sun Jan 31 17:40:58 2021
+@author: gpwolfe
 
-@author: piper
 """
 
 import spacy

@@ -3,6 +3,12 @@
 
 Scrape news article text from ZNS Bahamas news website (znsbahamas.com)
 
+Usage from command line:
+From project's top-level directory
+>>> python3 zns_scrapy_text.py
+
+Edit "self.count < [number]" in line 48 to limit number of articles scraped.
+
 """
 from scrapy import Field, Item, Request, Spider
 from scrapy.crawler import CrawlerProcess
@@ -16,7 +22,7 @@ class ZnsSpider(Spider):
     allowed_domains = ['znsbahamas.com']
     custom_settings = {
         'AUTOTHROTTLE_ENABLED': True,
-        'AUTOTHROTTLE_START_DELAY': 2,
+        'AUTOTHROTTLE_START_DELAY': .5,
         'AUTOTHROTTLE_MAX_DELAY': 60,
         'AUTOTHROTTLE_TARGET_CONCURRENCY': 1.0,
         }
@@ -24,6 +30,7 @@ class ZnsSpider(Spider):
 
     def start_requests(self):
         urls = [
+            # 'https://znsbahamas.com/police-investigating-the-countrys-latest-homicide-3/'
             'https://znsbahamas.com/covid-19-update-26-3-2021/',
         ]
         for url in urls:
@@ -39,14 +46,14 @@ class ZnsSpider(Spider):
         prev_page_url = response.xpath(
             """//div[contains(@class, "td-block-span6 td-post-prev-post")
              ]/div/a/@href""").extract_first()
-        if prev_page_url and self.count < 20:
+        if prev_page_url and self.count < 100000:
             yield Request(prev_page_url, callback=self.parse)
 
 
 def run_spider():
     process = CrawlerProcess(settings={
         'FEEDS': {
-            'results.csv': {'format': 'csv'},
+            'articles_100K.csv': {'format': 'csv'},
             },
         })
     process.crawl(ZnsSpider)
