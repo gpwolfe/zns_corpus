@@ -22,11 +22,11 @@ class ZnsSpider(Spider):
     allowed_domains = ['znsbahamas.com']
     custom_settings = {
         'AUTOTHROTTLE_ENABLED': True,
-        'AUTOTHROTTLE_START_DELAY': .5,
+        'AUTOTHROTTLE_START_DELAY': 1,
         'AUTOTHROTTLE_MAX_DELAY': 60,
         'AUTOTHROTTLE_TARGET_CONCURRENCY': 1.0,
         }
-    count = 0
+    # count = 0
 
     def start_requests(self):
         urls = [
@@ -39,21 +39,21 @@ class ZnsSpider(Spider):
     def parse(self, response):
         item = ZnsItem()
         item['text'] = ' '.join(response.css('article p::text').getall())
-        if len(item['text']) > 0:
-            self.count += 1
-            yield item
+        # if len(item['text']) > 0:
+            # self.count += 1
+        yield item
 
         prev_page_url = response.xpath(
             """//div[contains(@class, "td-block-span6 td-post-prev-post")
              ]/div/a/@href""").extract_first()
-        if prev_page_url and self.count < 100000:
+        if prev_page_url:
             yield Request(prev_page_url, callback=self.parse)
 
 
 def run_spider():
     process = CrawlerProcess(settings={
         'FEEDS': {
-            'articles_100K.csv': {'format': 'csv'},
+            'articles_100K_nolim.csv': {'format': 'csv'},
             },
         })
     process.crawl(ZnsSpider)
