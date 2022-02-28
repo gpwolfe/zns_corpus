@@ -50,12 +50,6 @@ output_path = "sentence_renders.svg"
 with open(output_path, "w", encoding = 'utf-8') as f:
     f.write(svg)
     
-    
-    
-    
-    MALT1_dot_percentages.py
-    /Users/piper/Code/zns_corpus/MALT1_dot_percentages.py
-    
 
 sentences = ["This is an example.", "This is another one."]
 for sent in sentences:
